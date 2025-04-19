@@ -1,3 +1,7 @@
 a.out
 *.x
-*.vscode
+.vscode
+*.txt
+*.o
+*~
+*.pdf
