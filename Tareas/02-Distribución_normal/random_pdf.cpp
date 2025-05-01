@@ -27,26 +27,23 @@ void compute_pdf(int seed, int nsamples, double mu, double sigma, double xmin, d
   std::normal_distribution<double> dis{mu, sigma};
 
   // Histogram stuff
-  std::vector<int> histogram(nbins); // Vector que almacena las frecuencias
-  double x_width = (xmax - xmin) / nbins; // El ancho de las barras del histograma
+  std::vector<int> histogram(nbins, 0); // Vector que almacena las frecuencias
+  double width = (xmax - xmin) / nbins; // El ancho de los intervalos del histograma
 
   for(int n = 0; n < nsamples; ++n) {
     double r = dis(gen);
 
     // Fill here the counting histogram stuff
-    for(int i = 0; i < nbins; i++)
-    {
-        if (r >= xmin + i * x_width && r < xmin + (i+1) * x_width){ // Verifica en qué intervalo cae el número aleatorio
-            histogram[i] += 1;                                      // Si el número aleatorio caen en el intervalo i, suma 1
-        }
-    }
+    if (r >= xmin && r <= xmax){ 
+       int bin_i = static_cast<int>((r - xmin) / width);        // Calcula el intervalo en el que cae r 
+       histogram[bin_i]++;                                      // Cuenta los r de cada intervalo
+     }
   }
   // Compute and print the pdf
-  double x = 0.0, pdf = 0.0;
   for(int i = 0; i < nbins; i++) {
-    x = xmin + x_width * (0.5 + i); // Centro de la barra
+    double x = xmin + width * (0.5 + i); // Centro del intervalo i
     double pdf_teo = teorical_pdf(x, mu, sigma);
-    double pdf_est = histogram[i] / (nsamples * x_width);
+    double pdf_est = histogram[i] / (nsamples * width);
     std::cout << x << "\t" << pdf_est << "\t" << pdf_teo << "\n";
   }
 }
