@@ -1,0 +1,3 @@
+wget <URL del paquete>
+tar xf <Ruta del archivo>
+less README
