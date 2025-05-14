@@ -1,0 +1,73 @@
+El arreglo x[], al ser dinámico, está en el heap (también es evidente porque su dirección es más baja que las de los otros arreglos).
+Usando gdb, se evidenció que la dirección del arreglo y[] es más baja que la del arreglo z[], entonces y[] va primero, porque el compilador 
+lo colocó primero. Para saber si están contiguos en memoria, también con gdb, se imprimieron las direcciones del último elemento de y[]
+y del primero de z[]. Los resultados mostraron que no son contiguos en memoria.
+
+
+{
+  int ii, jj; //Esta línea y la siguiente pueden reducirse a una.
+  ii =  0;
+  jj = -1;
+  foo(ii, jj);
+  foo(jj, ii);
+
+  baz(25.9);  //Estas funciones son llamadas pero sus resultados no se usan. Puede que lo mejor sea imprimirlos.
+
+    const int NX = 2, NY = 3, NZ = 4;  //Se eliminó el espacio al principio de la línea.
+  double *x, y[NY], z[NZ];
+  x = new double [NX];
+  int ii, jj, kk; //Las variables ii y jj se declaran de nuevo, mientras kk no se usa. Se quitó esta línea.
+  print_array(x, NX);
+  print_array(y, NY);
+  print_array(z, NZ);
+  std::cout << std::endl;  //Se imprimen los arreglos sin ningún texto que identifique a cada uno. Se añade un texto descriptivo en la impresión.
+
+  for (ii = 0; ii < NX; ++ii) {
+    x[jj] = ii;  //jj vale -1 aquí, no es posible acceder a dicho índice del arreglo. Se optó por escribir x[ii] = ii.
+  }
+  print_array(x, NZ); // x es un arreglo con NX = 2 índices, por lo que NZ = 4 se sale del rango. Se cambió NZ por NX.
+  print_array(y, NY); 
+  print_array(z, NZ + NY); //Aquí también se intenta leer fuera del arreglo. Se optó por escribir NY, que imprime los primeros 3 índices de z.
+  std::cout << std::endl; //De nuevo, aquí se agregó texto desciptivo en la impresión.
+  for (jj = 0; jj < NY; ++jj) {
+    x[jj] = ii; //jj se sale del rango de x, porque va hasta 2. Se borró esta línea.
+    y[jj] = jj; //Los elementos de y corresponden al valor de sus índices. 
+  }
+  print_array(x-NY, NY); //Apunta a una dirección de memoria no reservada fuera del arreglo.
+  print_array(y-NZ, NZ); //Igual. Se cambiaron los argumentos por (y, NY).
+  print_array(z + NZ + NY, NX); //Igual. Se cambiaron los argumentos por (z, NX).
+  std::cout << std::endl;
+
+  //Falta liberar la memoria que se pidió para x.
+
+   return EXIT_SUCCESS;
+}
+
+int foo(int a, int b)
+{
+  return a/b + b/bar(a, b) + b/a; //Para prevenir la divisón por cero, se agregó if (a == 0 || b == 0) return 0.
+}
+
+int bar(int a, int b)
+{
+  unsigned int c = a; //Si a es negativo, c será positivo y grande. 
+  return c + a - b;
+}
+
+double baz(double x)
+{
+  if (x = 0) return; //Dentro del if se le está asignando valor a x. Debería ser if (x == 0) return 0.0;
+  double v = 1-(x+1); //Esta variable no se usa. 
+  return std::sqrt(x) //Falta el punto y coma.
+}
+
+void print_array(const double data[], const int & size)
+{
+  std::cout << std::endl;
+  for (int ii = 0; ii < size; ++ii) {
+    std::cout << data[ii] << "  " ;
+  } //Se agregó un salto de línea aquí.
+}
+
+En general, parece que el propósito del código es probar algunas operaciones matemáticas, como la raíz cuadrada y operaciones entre fracciones;
+qué pasa si un entero negativo pasa a ser unsigned int y trabajar con arreglos estáticos y dinámicos. 
