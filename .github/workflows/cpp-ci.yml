@@ -16,4 +16,5 @@ jobs:
         sudo apt-get install -y g++ make catch2
 
     - name: Build with Makefile
-      run: make test_factorial.x
+      run: 
+        working-directory: "Unit_testing_2025-05-14/test_factorial.x"
