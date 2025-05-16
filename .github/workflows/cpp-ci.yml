@@ -17,4 +17,4 @@ jobs:
 
     - name: Build with Makefile
       run: 
-        working-directory: "Unit_testing_2025-05-14/test_factorial.x"
+        working-directory: "Unit_testing_2025-05-14/Makefile"
