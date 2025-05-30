@@ -2,6 +2,11 @@
 
 -f : Forzar. Por ejemplo, rm -f fuerza el borrado y evita consultas por parte del sistema.
 
-source ~/Downloads/spack/share/spack/setup-env.sh : Para poder usar spack despues de cerrar la terminal
+source ~/Downloads/spack/share/spack/setup-env.sh : Para poder usar spack despues de cerrar la terminal.
 
-git checkout - Elimina la última versión para restaurar la anterior
+git checkout - Elimina la última versión para restaurar la anterior.
+
+nohup command & : Sigue corriendo después de salir. Las impresiones en pantalla se guardan en nohub.out
+
+tmux command
+tmux a  
