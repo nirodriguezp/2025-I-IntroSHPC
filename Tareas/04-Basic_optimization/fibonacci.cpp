@@ -36,7 +36,21 @@ int main(int argc, char **argv) {
     end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_fast = end - start;
 
-    std::cout << n << "\t" << elapsed.count()/4.3e-05 << "\t" << elapsed_fast.count()/8.1e-08 << "\n";
+    start = std::chrono::high_resolution_clock::now();
+
+    fib(20);
+
+    end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_20 = end - start;
+
+    start = std::chrono::high_resolution_clock::now();
+
+    fib_fast(20);
+
+    end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_fast_20 = end - start;
+
+    std::cout << n << "\t" << elapsed.count()/elapsed_20.count() << "\t" << elapsed_fast.count()/elapsed_fast_20.count() << "\n";
 
     return 0;
 }
